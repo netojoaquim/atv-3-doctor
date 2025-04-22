@@ -1,13 +1,14 @@
 import * as React from 'react';
 import {View,Text,StyleSheet,TextInput,ScrollView,} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Avatar, Card, Icon } from '@rneui/themed';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 function Doctor() {
   return (
+  <ScrollView>
     <View style={styles.container}>
       <View style={styles.init}>
         <View style={styles.header}>
@@ -22,7 +23,7 @@ function Doctor() {
           </View>
 
         </View>
-        <View style={styles.searchBox}>
+        <View style={styles.busca}>
           <TextInput
             placeholder="Search doctor"
             style={styles.input}
@@ -45,35 +46,42 @@ function Doctor() {
           { icon: 'flask', label: 'Laboratory' }
         ].map((cat, index) => (
           <View key={index} style={styles.categoryItem}>
-            <Icon name={cat.icon} type="font-awesome-5" color="#4f63ac" size={24} />
+            <Icon name={cat.icon} type="font-awesome-5" color="#4f63ac" size={40} />
             <Text style={styles.categoryLabel}>{cat.label}</Text>
           </View>
         ))}
       </View>
 
-      <Text style={styles.sectionTitle}>Top doctors</Text>
-      <ScrollView>
+      <View style={styles.doctor}>
+        <Text style={styles.sectionTitle}>Top doctors</Text>
+      </View>
+
+      <ScrollView style={styles.doctors}>
         {[
           {
             name: 'dr. Olivia Wilson',
             specialty: 'Consultant - Physiotherapy',
-            avatar: 'https://randomuser.me/api/portraits/women/44.jpg'
+            avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+            rate: 1.8,
+            reviews: 12
           },
           {
             name: 'dr. Jonathan Patterson',
             specialty: 'Consultant - Internal Medicine',
-            avatar: 'https://randomuser.me/api/portraits/men/46.jpg'
+            avatar: 'https://randomuser.me/api/portraits/men/46.jpg',
+            rate: 4.9,
+            reviews: 37
           }
         ].map((doc, index) => (
-          <Card key={index} containerStyle={styles.doctorCard}>
+          <Card key={index} containerStyle={styles.doctor}>
             <View style={styles.doctorRow}>
-              <Avatar rounded size="medium" source={{ uri: doc.avatar }} />
+              <Avatar rounded size={90} source={{ uri: doc.avatar }} />
               <View style={styles.doctorInfo}>
                 <Text style={styles.doctorName}>{doc.name}</Text>
                 <Text>{doc.specialty}</Text>
                 <View style={styles.ratingRow}>
-                  <Icon name="star" color="gold" size={16} />
-                  <Text style={styles.ratingText}>4.9 (37 Reviews)</Text>
+                  <Icon name="star" color="gold" size={30} />
+                  <Text style={styles.ratingText}>{doc.rate} ({doc.reviews} Reviews)</Text>
                 </View>
               </View>
             </View>
@@ -81,15 +89,54 @@ function Doctor() {
         ))}
       </ScrollView>
     </View>
+    </ScrollView>
   );
 }
-
+function SettingsScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Settings</Text>
+    </View>
+  );
+}
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={Doctor} options={{ headerShown: false }} />
-      </Stack.Navigator>
+      <Tab.Navigator
+        style={styles.tab}
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ color, size }) => {
+            let iconName;
+            let iconType = 'font-awesome-5';
+            switch (route.name) {
+              case 'Home':
+                iconName = 'home';
+                break;
+              case 'Doctors':
+                iconName = 'stethoscope';
+                break;
+              case 'Appointment':
+                iconName = 'calendar';
+                break;
+              case 'Profile':
+                iconName = 'user';
+                break;
+            }
+            return (
+              <Icon name={iconName} type={iconType} color={color} size={size} />
+            );
+          },
+          tabBarStyle: styles.tabBar,
+          tabBarLabelStyle: styles.tabLabel,
+          tabBarActiveTintColor: "black",
+          tabBarInactiveTintColor: "white",
+        })}
+      >
+        <Tab.Screen name="Home" component={Doctor} options={{ headerShown: false }}/>
+        <Tab.Screen name="Doctors" component={SettingsScreen} />
+        <Tab.Screen name="Appointment" component={SettingsScreen} />
+        <Tab.Screen name="Profile" component={SettingsScreen} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }
@@ -109,7 +156,7 @@ const styles = StyleSheet.create({
   headerText: { marginLeft: 10 },
   welcome: { color: '#fff', fontSize: 20 ,fontWeight: 'bold'},
   username: { color: '#fff', fontSize: 16,  },
-  searchBox: {
+  busca: {
     flexDirection: 'row',
     backgroundColor: '#fff',
     margin: 25,
@@ -123,21 +170,44 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     marginHorizontal: 30,
   },
-  sectionTitle: { fontSize: 18, fontWeight: 'bold' },
-  showAll: { color: '#4f63ac', fontSize: 14 },
-  categoria: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginHorizontal: 20 ,
-    justifyContent: 'space-between',
-    marginVertical: 10,
-  },
+  sectionTitle: { fontSize: 20,},
+  showAll: {fontSize: 20,},
   categoryItem: {
     width: '30%',
     alignItems: 'center',
     marginVertical: 10,
+    borderRadius: 10,
+    padding: 20,
+    backgroundColor: '#fff',
   },
-  categoryLabel: { marginTop: 5, fontSize: 12, color: '#777' },
+  categoria: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginHorizontal: 30 ,
+    justifyContent: 'space-between',
+    marginVertical: 5,
+  },
+  doctor: {
+    marginHorizontal: 30 ,
+    marginVertical: 10,
+    borderRadius: 10,
+  },
+  doctors: {
+    maxHeight: 200,
+  },
+  tabBar: {
+    backgroundColor: '#4f63ac',
+    paddingBottom: 10,
+    paddingTop: 5,
+    height: 70,
+    position: 'absolute',
+  },
+  tabLabel: {
+    fontSize: 12,
+    color: '#fff',
+  },
+
+  categoryLabel: { marginTop: 5, fontSize: 15, color: '#777' },
   doctorCard: { borderRadius: 10 },
   doctorRow: { flexDirection: 'row', alignItems: 'center' },
   doctorInfo: { marginLeft: 15 },
