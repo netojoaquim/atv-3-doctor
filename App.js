@@ -6,22 +6,28 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Tab = createBottomTabNavigator();
 
+
 const categories = [
   { icon: 'flight', name: 'Flights' },
+  { icon: 'hotel', name: 'Hotels' },
+  { icon: 'local-activity', name: 'Activities' },
+  { icon: 'flight', name: 'Flights' },
+  { icon: 'hotel', name: 'Hotels' },
+  { icon: 'local-activity', name: 'Activities' },
   { icon: 'hotel', name: 'Hotels' },
   { icon: 'local-activity', name: 'Activities' },
 ];
 
 const images = [
-  'https://source.unsplash.com/featured/?beach',
-  'https://source.unsplash.com/featured/?mountains',
-  'https://source.unsplash.com/featured/?city',
+  'https://as2.ftcdn.net/jpg/01/63/83/89/1000_F_163838964_LHz1EgQc88M1GcfkjFEKofOmpl75dsfo.jpg',
+  'https://as2.ftcdn.net/jpg/01/63/83/89/1000_F_163838964_LHz1EgQc88M1GcfkjFEKofOmpl75dsfo.jpg',
+  'https://as2.ftcdn.net/jpg/01/63/83/89/1000_F_163838964_LHz1EgQc88M1GcfkjFEKofOmpl75dsfo.jpg',
 ];
 
 const recommended = [
-  'https://source.unsplash.com/featured/?paris',
-  'https://source.unsplash.com/featured/?tokyo',
-  'https://source.unsplash.com/featured/?newyork',
+  'https://as2.ftcdn.net/jpg/01/63/83/89/1000_F_163838964_LHz1EgQc88M1GcfkjFEKofOmpl75dsfo.jpg',
+  'https://as2.ftcdn.net/jpg/01/63/83/89/1000_F_163838964_LHz1EgQc88M1GcfkjFEKofOmpl75dsfo.jpg',
+  'https://as2.ftcdn.net/jpg/01/63/83/89/1000_F_163838964_LHz1EgQc88M1GcfkjFEKofOmpl75dsfo.jpg',
 ];
 
 function Doctor() {
@@ -125,46 +131,57 @@ function Travel() {
             <Icon name="search" type="feather" color="#777" />
           </View>
           </View>
-
-          <View style={styles.headerText}>
-            <Text style={styles.welcome}>Welcome!</Text>
-            <Text style={styles.username}>Donna Stroupe</Text>
-            <Avatar
-              rounded
-              source={{ uri: "https://randomuser.me/api/portraits/women/1.jpg" }}
-              size={48}
-            />
+          
+          <View style={styles.divisao}>
+            <View style={styles.headeravatar}>
+              <Avatar
+                rounded
+                size="medium"
+                source={{ uri: 'https://randomuser.me/api/portraits/women/1.jpg' }}
+              />
+              <View style={styles.headerText}>
+                <Text style={styles.welcome}>Welcome</Text>
+                <Text style={styles.username}>Dani Martinez</Text>
+              </View>
+            </View>
+            <View>
+            <Icon name="bell" type="font-awesome" color="white" size={28} />
           </View>
+
+          </View>
+          
         </View>
 
-        <View style={styles.categoria}>
-          <Text style={styles.sectionTitle}>Categories</Text>
+        <View style={styles.categoria2}>
+          <Text style={styles.sectionTitle}>Category</Text>
         </View>
 
-        <View style={styles.categoria}>
+        <View style={styles.categoria2}>
           {categories.map((cat, i) => (
-            <View key={i} style={styles.categoryItem}>
-              <Icon name={cat.icon} type="material" color="#4f63ac" size={40} />
-              <Text style={styles.categoryLabel}>{cat.name}</Text>
+            <View key={i} style={styles.categoryItem2}>
+              <Icon name={cat.icon} type="material" color="#fff" size={30} />
+              <Text style={styles.categoryLabel2}>{cat.name}</Text>
             </View>
           ))}
         </View>
 
-        <View style={styles.doctor}>
+        <View style={styles.menu}>
           <Text style={styles.sectionTitle}>Popular Destinations</Text>
+          <Icon name='menu' type="Entypo" color="black" size={30} />
         </View>
 
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.doctors}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.destinos}>
           {images.map((img, i) => (
-            <Image key={i} source={{ uri: img }} style={{ width: 120, height: 100, borderRadius: 10, marginRight: 10 }} />
+            <Image key={i} source={{ uri: img }} style={{ width: 120, height: 100, borderRadius: 10, marginRight: 10, }} />
           ))}
         </ScrollView>
 
         <View style={styles.doctor}>
           <Text style={styles.sectionTitle}>Recommended</Text>
+          
         </View>
 
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.doctors}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.recomendado}>
           {recommended.map((img, i) => (
             <Image key={i} source={{ uri: img }} style={{ width: 160, height: 100, borderRadius: 10, marginRight: 10 }} />
           ))}
@@ -174,7 +191,7 @@ function Travel() {
   );
 }
 
-function SettingsScreen() {
+function Messages() {
   return (
     <View style={styles.container}>
       <Text style={{ marginTop: 50, textAlign: 'center' }}>Em construção</Text>
@@ -217,8 +234,7 @@ function App() {
       >
         <Tab.Screen name="Home" component={Doctor} options={{ headerShown: false }}/>
         <Tab.Screen name="Doctors" component={Travel} options={{ headerShown: false }} />
-        <Tab.Screen name="Appointment" component={SettingsScreen} />
-        <Tab.Screen name="Profile" component={SettingsScreen} />
+        <Tab.Screen name="Profile" component={Messages} options={{ headerShown: false }}/>
       </Tab.Navigator>
     </NavigationContainer>
   );
@@ -233,8 +249,6 @@ const styles = StyleSheet.create({
   },
   init2: {
     backgroundColor: '#4f63ac',
-    borderBottomStartRadius: 20,
-    borderBottomEndRadius: 20
   },
   header: {
     flexDirection: 'row',
@@ -246,6 +260,18 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
     justifyContent:'center'
+  },
+  headeravatar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent:'center'
+  },
+  divisao: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent:'space-between',
+    paddingHorizontal:40,
+    marginBottom:30
   },
   headerText: { marginLeft: 10 },
   welcome: { color: '#fff', fontSize: 20 ,fontWeight: 'bold'},
@@ -274,12 +300,27 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#fff',
   },
+  categoryItem2: {
+    width: '25%',
+    alignItems: 'center',
+    marginVertical: 10,
+    borderRadius: 50,
+    padding: 20,
+    backgroundColor: '#4f63ac',
+  },
   categoria: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginHorizontal: 30,
     justifyContent: 'space-between',
     marginVertical: 5,
+  },
+  categoria2: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginHorizontal: 20,
+    justifyContent: 'space-between',
+    marginVertical: 10,
   },
   doctor: {
     marginHorizontal: 30,
@@ -289,6 +330,17 @@ const styles = StyleSheet.create({
   doctors: {
     maxHeight: 200,
   },
+  menu:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+    padding:20
+  },
+  destinos: {
+   padding:20
+  },
+  recomendado: {
+    padding:20
+   },
   tabBar: {
     backgroundColor: '#4f63ac',
     paddingBottom: 10,
@@ -301,6 +353,7 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   categoryLabel: { marginTop: 5, fontSize: 15, color: '#777' },
+  categoryLabel2: { marginTop: 5, fontSize: 15, color: '#fff' },
   doctorCard: { borderRadius: 10 },
   doctorRow: { flexDirection: 'row', alignItems: 'center' },
   doctorInfo: { marginLeft: 15 },
