@@ -5,7 +5,43 @@ import { Avatar, Card, Icon } from '@rneui/themed';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Tab = createBottomTabNavigator();
-
+const mensagens = [
+  {
+    name: 'Dr. Olivia Wilson',
+    message: 'Olá! Seu exame está pronto.',
+    time: '10:45 AM',
+    unread: 2,
+    avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+  },
+  {
+    name: 'Dr. Jonathan Patterson',
+    message: 'Gostaria de marcar uma consulta?',
+    time: 'Ontem',
+    unread: 0,
+    avatar: 'https://randomuser.me/api/portraits/men/46.jpg',
+  },
+  {
+    name: 'Dr. Olivia Wilson',
+    message: 'Olá! Seu exame está pronto.',
+    time: '10:45 AM',
+    unread: 2,
+    avatar: 'https://randomuser.me/api/portraits/women/42.jpg',
+  },
+  {
+    name: 'Dr. Olivia Wilson',
+    message: 'Olá! Seu exame está pronto.',
+    time: '10:45 AM',
+    unread: 2,
+    avatar: 'https://randomuser.me/api/portraits/women/58.jpg',
+  },
+  {
+    name: 'Dr. Olivia Wilson',
+    message: 'Olá! Seu exame está pronto.',
+    time: '10:45 AM',
+    unread: 2,
+    avatar: 'https://randomuser.me/api/portraits/women/14.jpg',
+  },
+];
 
 const categories = [
   { icon: 'flight', name: 'Flights' },
@@ -193,9 +229,40 @@ function Travel() {
 
 function Messages() {
   return (
-    <View style={styles.container}>
-      <Text style={{ marginTop: 50, textAlign: 'center' }}>Em construção</Text>
-    </View>
+    <ScrollView style={styles.container}>
+      <View style={{ padding: 20 }}>
+        <Text style={styles.mensageTitle}>Mensagens & Chat</Text>
+      </View>
+      <View style={styles.text}>
+        <Text style={styles.sectionfiltro}>Mark all read </Text>
+        <Text style={styles.sectionfiltro}>Sort by time</Text>
+      </View>
+      {mensagens.map((item, index) => (
+        <Card key={index} containerStyle={{ borderRadius: 10 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Avatar rounded size="medium" source={{ uri: item.avatar }} />
+            <View style={{ flex: 1, marginLeft: 10 }}>
+              <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{item.name}</Text>
+              <Text style={{ color: '#777' }}>{item.message}</Text>
+            </View>
+            <View style={{ alignItems: 'flex-end' }}>
+              <Text style={{ fontSize: 12, color: '#aaa' }}>{item.time}</Text>
+              {item.unread > 0 && (
+                <View style={{
+                  backgroundColor: '#4f63ac',
+                  borderRadius: 10,
+                  paddingHorizontal: 8,
+                  paddingVertical: 2,
+                  marginTop: 5,
+                }}>
+                  <Text style={{ color: '#fff', fontSize: 12 }}>{item.unread}</Text>
+                </View>
+              )}
+            </View>
+          </View>
+        </Card>
+      ))}
+    </ScrollView>
   );
 }
 
@@ -218,8 +285,8 @@ function App() {
               case 'Appointment':
                 iconName = 'calendar';
                 break;
-              case 'Profile':
-                iconName = 'user';
+              case 'Messages':
+                iconName = 'mail-bulk';
                 break;
             }
             return (
@@ -234,7 +301,7 @@ function App() {
       >
         <Tab.Screen name="Home" component={Doctor} options={{ headerShown: false }}/>
         <Tab.Screen name="Doctors" component={Travel} options={{ headerShown: false }} />
-        <Tab.Screen name="Profile" component={Messages} options={{ headerShown: false }}/>
+        <Tab.Screen name="Messages" component={Messages} options={{ headerShown: false }}/>
       </Tab.Navigator>
     </NavigationContainer>
   );
@@ -351,6 +418,17 @@ const styles = StyleSheet.create({
   tabLabel: {
     fontSize: 12,
     color: '#fff',
+  },
+  text:{
+    flexDirection:"row",
+    justifyContent:"space-between",
+    padding:20,
+  },
+  mensageTitle:{
+    fontSize:25,
+    textAlign:"right",
+    marginTop:50
+   
   },
   categoryLabel: { marginTop: 5, fontSize: 15, color: '#777' },
   categoryLabel2: { marginTop: 5, fontSize: 15, color: '#fff' },
